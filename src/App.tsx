@@ -1,26 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Routes } from './Routes';
+import { useState, useEffect } from 'react';
+//import { setAccessToken } from './accessToken';
+import { getAccessTokenWithRefreshToken } from './GetRefreshToken';
+type AppProps = {}
+ 
+export const App:React.FC<AppProps> = () => {
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+
+        const loadToken = async() => {
+            await getAccessTokenWithRefreshToken();
+        }
+        loadToken();
+        setLoading(false);
+        return () => {
+            
+        }
+    }, [])
+
+    if (loading) {
+        return <div>Loading...</div>
+    }
+
+    return (
+        <Routes />
+    );
 }
-
-export default App;
