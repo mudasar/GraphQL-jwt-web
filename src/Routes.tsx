@@ -1,4 +1,4 @@
-import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { Home } from "./pages/Home";
 import { Register } from "./pages/Register";
 import { Login } from "./pages/Login";

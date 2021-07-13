@@ -8,28 +8,40 @@ import {setContext} from '@apollo/client/link/context'
 import { App } from './App';
 import jwt_decode from 'jwt-decode';
 import { getAccessTokenWithRefreshToken } from './GetRefreshToken';
+//import { onError } from "apollo-link-error";
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:4000/graphql',
   credentials: 'include'
 });
 
+// const errorLink = onError(({ graphQLErrors, networkError }) => {
+//   if (graphQLErrors)
+//     graphQLErrors.map(({ message, locations, path }) =>
+//       console.log(
+//         `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
+//       ),
+//     );
+
+//   if (networkError) console.log(`[Network error]: ${networkError}`);
+// });
+
 const authLink = setContext(async(_, { headers }) => {
   // get the authentication token from local storage if it exists##
   //   const token = localStorage.getItem('token');
   let token = getAccessToken();
   if (token) {
-    console.log(token);
+    //console.log(token);
     const payload = jwt_decode(token) as any;
-    console.log(payload);
+    //console.log(payload);
     const expiry = payload.exp;
     const now = new Date();
-    console.log('calling the link');
+    //console.log('calling the link');
     if( now.getTime() > expiry * 1000 ) {
-      console.log('token expired');
+      //console.log('token expired');
       await getAccessTokenWithRefreshToken();
       token = getAccessToken();
-      console.log('new token is', token);
+      //console.log('new token is', token);
     }
   }else{
     // push to login page or create a new token from refresh token

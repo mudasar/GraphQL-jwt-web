@@ -9,7 +9,7 @@ export const Home:React.FC<HomeProps>  = () => {
   //const {data, loading} = useHelloQuery();
   const {data, loading, error} = useUsersQuery({fetchPolicy: 'network-only'});
 
-  console.log(error);
+  //console.log(error);
   if (loading || !data){
     return <div>Loading ...</div>
   }
